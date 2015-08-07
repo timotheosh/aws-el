@@ -1,4 +1,4 @@
-;;; client.el ---
+;;; aws-el.el ---
 
 ;; Copyright (C) 2015 Free Software Foundation, Inc.
 ;;
@@ -36,17 +36,24 @@
 
 (require 'epc)
 (setq aws-dir "~/.emacs.d/programs/aws")
-(defvar my-epc (epc:start-epc "python" '("/home/thawes/.emacs.d/programs/aws/bin/epcserver.py")))
+(defvar my-epc (epc:start-epc "python" '("/home/thawes/.emacs.d/programs/aws-el/bin/epcserver.py")))
 
-(deferred:$
-  (epc:call-deferred my-epc 'echo '(10))
-  (deferred:nextc it
-    (lambda (x) (message "Return : %S" x))))
-
-(message "Return : %S" (epc:call-sync my-epc 'echo '(10 40)))
+(defun cf-validate ()
+  (interactive)
+  (message "%S" (epc:call-sync my-epc 'cfValidate (buffer-substring-no-properties 1 (buffer-size)))))
 
 
+(defun cf-test()
+  (message "%S" (epc:call-sync my-epc 'cfTest (buffer-substring-no-properties 1 (buffer-size)))))
 
+(define-minor-mode cloudformation-mode
+  "Toggle CloudFormation mode."
+  :lighter " CF "
+  :keymap (let ((map (make-sparse-keymap)))
+            (define-key map (kbd "C-c C-c") 'cf-validate)
+            map)
+  :group 'cloudformation
+  )
 
-(provide 'client)
-;;; client.el ends here
+(provide 'aws-el)
+;;; aws-el.el ends here
