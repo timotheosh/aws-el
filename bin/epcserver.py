@@ -34,14 +34,15 @@ class AwsEl:
 
 if __name__ == "__main__":
   server = EPCServer(('localhost', 0))
-  Aws = AwsEl('dev')
   @server.register_function
   def cfValidate(*template):
+    Aws = AwsEl('dev')
     f = ''.join(template)
     return Aws.validateTemplate(f)
 
   @server.register_function
   def cfTest(*template):
+    Aws = AwsEl('dev')
     f = ''.join(template)
     return f
 
