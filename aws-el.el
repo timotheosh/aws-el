@@ -35,8 +35,8 @@
   (require 'cl))
 
 (require 'epc)
-(setq aws-dir "~/.emacs.d/programs/aws")
-(defvar my-epc (epc:start-epc "python" '("/home/thawes/.emacs.d/programs/aws-el/bin/epcserver.py")))
+(setq aws-dir (concat (getenv "HOME") "/.emacs.d/programs/aws-el/bin/epcserver.py"))
+(defvar my-epc (epc:start-epc "python" '(aws-dir)))
 
 (defun cf-validate ()
   (interactive)
