@@ -36,7 +36,7 @@
 
 (require 'epc)
 (setq aws-dir (concat (getenv "HOME") "/.emacs.d/programs/aws-el/bin/epcserver.py"))
-(defvar my-epc (epc:start-epc "python" (list aws-dir)))
+(defvar my-epc (epc:start-epc "python3" (list aws-dir)))
 
 (defun cf-validate ()
   (interactive)
@@ -44,6 +44,7 @@
 
 
 (defun cf-test()
+  (interactive)
   (message "%S" (epc:call-sync my-epc 'cfTest (buffer-substring-no-properties 1 (buffer-size)))))
 
 (define-minor-mode cloudformation-mode
